@@ -45,15 +45,14 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
     private String phoneNumber = "";
     String selected_ImageGetPath = "";
 
-    RelativeLayout re_back, re_done, re_call, re_sms, re_action1, re_action2, re_action3 ;
+    RelativeLayout re_back, re_done, re_call, re_sms, re_action1, re_action2 ;
 
     private TextView tv_name, tv_numberphone, tv_name_sim;
 
     private ImageView image_anhdaidien , img_camera ;
 
-    TextView textView2;
 
-    // Camera and garaly
+    // Camera and gallery
     // Thông báo
     File file;
     private Uri selectedImageUri ;
@@ -73,8 +72,8 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
 
         initPermission();
 
-        Intent iin = getIntent();
-        Bundle b = iin.getExtras();
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
 
         if (b != null) {
             id = b.getString("Id_danhba");
@@ -83,7 +82,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
            // selected_ImageGetPath = b.getString("Image_Path"); // đường dẫn Uri kiểu String
         }
 
-
+        //nut tro ve tren menu
         re_back = (RelativeLayout) findViewById(R.id.re_back);
         re_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +94,11 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
             }
         });
 
+        //tao short cut tren home
         re_done = (RelativeLayout) findViewById(R.id.re_done);
         re_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                   try{
 
                       Bitmap scaledBitmap = null;
@@ -108,7 +107,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
                       scaledBitmap  =  Bitmap.createScaledBitmap(bm, 120 , 120 , false);
                       circular_mIcon11 = Url_config.getRoundedCornerBitmap(scaledBitmap, 60);
 
-                      // Code tạo ra Shortcut icon màng hình home
+                      // Code tạo ra Shortcut icon màn hình home
                       if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
                           if (Build.VERSION.SDK_INT >= 24){
@@ -145,6 +144,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
             }
         });
 
+        //gui tin nhan truc tiep
         re_sms = (RelativeLayout) findViewById(R.id.re_sms);
         re_sms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,7 +253,6 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
                 Intent GalIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(Intent.createChooser(GalIntent, "Select Image From Gallery"), 2);
-
 
             }
         });
@@ -392,6 +391,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         }
     }
 
+    //luu anh vao may
     private void SaveIamge(Bitmap finalBitmap) {
 
         String root = Environment.getExternalStorageDirectory().toString();

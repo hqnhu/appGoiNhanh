@@ -23,7 +23,7 @@
             android:layout_below="@+id/progressbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="Xin đợi trong giây lát!"
+            android:text="@string/watting"
             android:textColor="#fff" />
     </RelativeLayout>
 </RelativeLayout>

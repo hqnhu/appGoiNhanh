@@ -259,7 +259,7 @@
                             android:layout_weight="1"
                             android:fontFamily="sans-serif"
                             android:padding="@dimen/dp8"
-                            android:text="Gửi tin nhắn SMS "
+                            android:text="@string/send_SMS"
                             android:textColor="#999"
                             android:textSize="16sp" />
                     </RelativeLayout>
@@ -296,7 +296,7 @@
                             android:layout_weight="1"
                             android:fontFamily="sans-serif"
                             android:padding="@dimen/dp8"
-                            android:text="Gọi điện thoại trực tiếp"
+                            android:text="@string/direct_call"
                             android:textColor="#999"
                             android:textSize="16sp" />
                     </RelativeLayout>

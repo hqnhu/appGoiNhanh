@@ -12,6 +12,8 @@
     <string name="sim">(Sim)</string>
     <string name="mobile">(Mobile)</string>
     <string name="other">Other</string>
+    <string name="send_SMS">Send SMS</string>
+    <string name="direct_call">Direct call</string>
     <string name="group">Group 8 - PTPM CQ2017/33</string>
     <string name="no_thanks">No, Thanks!</string>
     <string name="contacts_list">Phone Book List</string>
@@ -28,6 +30,7 @@
     <string name="more">More</string>
     <string name="rate">Rate</string>
     <string name="share">Share</string>
-    <string name="search">Search</string>
+    <string name="search">Search</string> for seseconds
+    <string name="watting">Please wait some seconds</string>
 
 </resources>

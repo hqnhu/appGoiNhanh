@@ -12,6 +12,8 @@
     <string name="sim">(Sim)</string>
     <string name="mobile">(Di động)</string>
     <string name="other">Khác</string>
+    <string name="send_SMS">Gửi tin nhắn SMS</string>
+    <string name="direct_call">Gọi điện thoại trực tiếp</string>
     <string name="group">Nhóm 8 - PTPM CQ2017/33</string>
     <string name="no_thanks">"Không, cám ơn!"</string>
     <string name="contacts_list">Danh bạ điện thoại</string>
@@ -29,5 +31,6 @@
     <string name="rate">Đánh giá</string>
     <string name="share">Chia sẻ</string>
     <string name="search">Tìm kiếm</string>
+    <string name="watting">Xin đợi trong giây lát</string>
 
 </resources>
