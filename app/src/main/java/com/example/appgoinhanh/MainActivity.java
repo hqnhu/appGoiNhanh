@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             final String appPackageName = context.getPackageName();
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "Link"); // cần thay đường link - github
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://github.com/hqnhu/appGoiNhanh");
                             sendIntent.setType("text/plain");
                             context.startActivity(sendIntent);
                         }
