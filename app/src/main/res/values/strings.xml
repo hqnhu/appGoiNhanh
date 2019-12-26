@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">"Quick Call"</string>
+
+    <!--//Bạn đang tới tin nhắn sms-->
+    <string name="send_sms">SMS Messages</string>
+    <string name="no_whatsapp">Do not have this app Whapsapp on your phone</string>
+    <string name="no_telegram">Do not have this app Telegram on your phone</string>
+    <string name="shortcut_contact">Contacts have been added to your home screen shortcut</string>
+    <string name="name">Name :</string>
+    <string name="phone">Phone :</string>
+    <string name="sim">(Sim)</string>
+    <string name="mobile">(Mobile)</string>
+    <string name="other">Other</string>
+    <string name="group">Group 8 - PTPM CQ2017/33</string>
+    <string name="no_thanks">No, Thanks!</string>
+    <string name="contacts_list">Phone Book List</string>
+    <string name="shortcut_not_supported">Shortcut not supported</string>
+    <string name="notification_permission">Please agree until you grant the permission, we cannot display the name</string>
+    <string name="file_recording">File recording license is granted</string>
+    <string name="file_write">File write permission denied</string>
+    <string name="permission_isn_granted" tools:ignore="StringEscaping">"Permission isn't granted"</string>
+    <string name="permission_dont_show_dialog" tools:ignore="StringEscaping">"Permission don't granted and don't show dialog again"</string>
+    <string name="image_representative">Image representative</string>
+    <string name="thong_bao_trung_lap_anh_shorcute">This phone number has created a shortcut, please delete it to change the image</string>
+
+    <string name="version">V.1.0.0</string>
+    <string name="more">More</string>
+    <string name="rate">Rate</string>
+    <string name="share">Share</string>
+    <string name="search">Search</string>
+
+</resources>

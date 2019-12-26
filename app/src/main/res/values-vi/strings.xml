@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">Gọi nhanh"</string>
+
+    <!--//Bạn đang tới tin nhắn sms-->
+    <string name="send_sms">Tin nhắn SMS</string>
+    <string name="no_whatsapp">Không có ứng dụng này Whapsapp trên điện thoại của bạn</string>
+    <string name="no_telegram">Không có ứng dụng này Telegram trên điện thoại của bạn</string>
+    <string name="shortcut_contact">Danh bạ đã được thêm vào phím tắt màn hình chính của bạn</string>
+    <string name="name">Tên :</string>
+    <string name="phone">Số điện thoại :</string>
+    <string name="sim">(Sim)</string>
+    <string name="mobile">(Di động)</string>
+    <string name="other">Khác</string>
+    <string name="group">Nhóm 8 - PTPM CQ2017/33</string>
+    <string name="no_thanks">"Không, cám ơn!"</string>
+    <string name="contacts_list">Danh bạ điện thoại</string>
+    <string name="shortcut_not_supported">Phím tắt không được hỗ trợ</string>
+    <string name="notification_permission">"Vui lòng đồng ý cho đến khi bạn cấp quyền, chúng tôi không thể hiển thị tên"</string>
+    <string name="file_recording">Giấy phép ghi tập tin được cấp</string>
+    <string name="file_write">Quyền ghi tập tin bị từ chối</string>
+    <string name="permission_isn_granted" tools:ignore="StringEscaping">Quyền không được cấp</string>
+    <string name="permission_dont_show_dialog" tools:ignore="StringEscaping">Quyền không được cấp và không hiển thị lại hộp thoại</string>
+    <string name="image_representative">Hình ảnh đại diện</string>
+    <string name="thong_bao_trung_lap_anh_shorcute">Số điện thoại này đã tạo một lối tắt, vui lòng xóa nó để thay đổi hình ảnh</string>
+
+    <string name="version">V.1.0.0</string>
+    <string name="more">More</string>
+    <string name="rate">Đánh giá</string>
+    <string name="share">Chia sẻ</string>
+    <string name="search">Tìm kiếm</string>
+
+</resources>
