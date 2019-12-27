@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.appgoinhanh.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class AllContactsAdapter extends BaseAdapter {
@@ -65,6 +67,13 @@ public class AllContactsAdapter extends BaseAdapter {
                 }
             }
         }
+        //sắp xếp
+        Collections.sort(arrayList, new Comparator<ContactVO>() {
+            @Override public int compare(ContactVO p1, ContactVO p2) {
+                return p1.getContactName().toLowerCase().compareTo(p2.getContactName().toLowerCase()); // Ascending
+            }
+
+        });
         notifyDataSetChanged();
     }
 

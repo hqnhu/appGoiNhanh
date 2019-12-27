@@ -48,21 +48,21 @@ public class Url_config {
         return output;
     }
 
-    // show popup load
-    public static AlertDialog showpop_up_Load(Context content) {
-        final AlertDialog.Builder popDialog = new AlertDialog.Builder(content);
-
-        final LayoutInflater inflater = (LayoutInflater) content.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-        final View Viewlayout = inflater.inflate(R.layout.bg_load, null);
-
-        popDialog.setView(Viewlayout);
-
-        popDialog.create();
-        final AlertDialog dg = popDialog.show();
-        dg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //
-        return  dg;
-    }
+//    // show popup load
+//    public static AlertDialog showpop_up_Load(Context content) {
+//        final AlertDialog.Builder popDialog = new AlertDialog.Builder(content);
+//
+//        final LayoutInflater inflater = (LayoutInflater) content.getSystemService(LAYOUT_INFLATER_SERVICE);
+//
+//        final View Viewlayout = inflater.inflate(R.layout.bg_load, null);
+//
+//        popDialog.setView(Viewlayout);
+//
+//        popDialog.create();
+//        final AlertDialog dg = popDialog.show();
+//        dg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        //
+//        return  dg;
+//    }
 
 }

@@ -122,7 +122,7 @@
                         android:fontFamily="sans-serif"
                         android:paddingLeft="@dimen/dp16"
                         android:paddingRight="@dimen/dp16"
-                        android:text="Home"
+                        android:text="@string/home"
                         android:textColor="#3c3c3c"
                         android:textSize="14sp" />
                 </LinearLayout>

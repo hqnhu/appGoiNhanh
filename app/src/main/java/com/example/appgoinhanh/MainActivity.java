@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview;
     private ArrayList<ContactVO> listdata;
 
-    AllContactsAdapter adapter_search;
+    AllContactsAdapter adapter_search ;
 
-    Uri pURI;
+    Uri pURI ;
     String url_path = "";
 
     CustomProgressDialog progressdialog;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
+                try{
                     final AlertDialog.Builder popDialog = new AlertDialog.Builder(MainActivity.this);
 
                     final LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -89,18 +89,19 @@ public class MainActivity extends AppCompatActivity {
                     RelativeLayout re_Cancel = (RelativeLayout) Viewlayout.findViewById(R.id.re_Cancel);
 
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                         dg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dg.getWindow().setLayout(650, 1200);
+                        dg.getWindow().setLayout(650,1200);
                         dg.getWindow().setGravity(Gravity.TOP | Gravity.LEFT | Gravity.BOTTOM);
-                    } else {
+                    }else {
                         dg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dg.getWindow().setLayout(470, 1200);
-                        dg.getWindow().setGravity(Gravity.TOP | Gravity.LEFT | Gravity.BOTTOM);
+                        dg.getWindow().setLayout(470,1200);
+                        dg.getWindow().setGravity(Gravity.TOP |Gravity.LEFT | Gravity.BOTTOM);
                         re_Cancel.setVisibility(View.VISIBLE);
                     }
 
-
+                    //chức năng trở lại màn hình chính và cập nhật lại danh sách
                     re_home_now.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -110,11 +111,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+                    //chức năng chia sẻ
                     re_share.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            final String appPackageName = context.getPackageName();
+                            //final String appPackageName = context.getPackageName();
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT, "https://github.com/hqnhu/appGoiNhanh");
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                } catch (Exception ep) {
+                }catch (Exception ep){
 
                 }
 
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //gia nut menu
+        //gia nut info
         RelativeLayout re_info = (RelativeLayout) findViewById(R.id.re_info);
         re_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 final View Viewlayout = inflater.inflate(R.layout.custom_popup_info, null);
 
                 popDialog.setView(Viewlayout);
-
                 popDialog.create();
 
                 final AlertDialog dg = popDialog.show();
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 //                Button btnfollow;
 //                LinearLayout li_more , li_rate , li_share ;
 
-                txtclose = (TextView) Viewlayout.findViewById(R.id.txtclose);
+                txtclose =(TextView) Viewlayout.findViewById(R.id.txtclose);
 
                 txtclose.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -173,28 +174,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         //==== ArrayAdapter của Listview
 //         ArrayAdapter<ContactVO> adapter = new ArrayAdapter<ContactVO>(this, android.R.layout.activity_list_item, listdata);
 
         new _LoadDulieu().execute();
 
-    }
+    }//end of onCreate
 
     private ArrayList<ContactVO> getContacts(Context ctx) {
 
         ArrayList<ContactVO> list = new ArrayList<>();
-        if (list.size() > 0) {
+        if(list.size()>0){
             list.clear();
         } // xóa dữ liệu
         ContentResolver contentResolver = ctx.getContentResolver();
-        //trỏ đến danh bạ
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                //neu co so dt
+
                 if (cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    //tao con tro info
                     Cursor cursorInfo = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
@@ -217,9 +217,11 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             File imgFile = new File(url_path);
 
-                            if (imgFile.exists()) {
+                            if(imgFile.exists()){
                                 photo = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                                cr_photo = Bitmap.createScaledBitmap(photo, 140, 140, false);
+
+                                cr_photo = Bitmap.createScaledBitmap(photo, 140 , 140 , false);
+
                                 circular_mIcon11 = Url_config.getRoundedCornerBitmap(cr_photo, 20);
 
                             }
@@ -249,15 +251,15 @@ public class MainActivity extends AppCompatActivity {
     private class _LoadDulieu extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected void onPreExecute() { // Hàm này luôn luôn chạy đầu tiên quá trình load bắt đâu "Start", (hiển thị vòng tròn xoay)
-            progressdialog = new CustomProgressDialog(MainActivity.this);
+        protected void onPreExecute() { // Hàm này luôn luôn chạy đầu tiên quá trình load bắt đâu "Start"
+            progressdialog = new CustomProgressDialog(MainActivity.this); // hiển thị vòng tròn xin đợi
             progressdialog.show();
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            // chạy ẩn = hàm này chạy xong mới tới hàm onPreExecute (lấy các liên hệ để vào trong listdata
+            // chạy ẩn = hàm này chạy xong mới tới hàm onPreExecute
             listdata = getContacts(MainActivity.this);
 
             return null;
@@ -265,9 +267,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+
             adapter_search = new AllContactsAdapter(getApplicationContext(), listdata);
             listview.setAdapter(adapter_search);
-            //tìm kiếm
+            //chức năng search khi chọn
             search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override
@@ -282,22 +286,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            if (listdata.size() > 0) {
+            if(listdata.size()>0){
 
-                // Thuật toán sấp xếp ds danh bạ theo tên getContactName
+                // Thuật toán sấp xếp ds danh bạ theo tên ContactName
                 Collections.sort(listdata, new Comparator<ContactVO>() {
-                    @Override
-                    public int compare(ContactVO p1, ContactVO p2) {
-                        return p1.getContactName().compareTo(p2.getContactName()); // Ascending
+                    @Override public int compare(ContactVO p1, ContactVO p2) {
+                        return p1.getContactName().toLowerCase().compareTo(p2.getContactName().toLowerCase()); // Ascending
                     }
 
                 });
 
-                listview.setAdapter(new AllContactsAdapter(getApplicationContext(), listdata));
-                listview.setDivider(null); //phân chia giữa các item
+                listview.setAdapter(new AllContactsAdapter(getApplicationContext(),listdata));
+                listview.setDivider(null);
                 listview.setDividerHeight(0);
-
-                //mở Thông tin chi tiết activity
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

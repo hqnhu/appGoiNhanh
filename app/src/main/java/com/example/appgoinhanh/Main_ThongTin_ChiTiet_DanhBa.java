@@ -45,17 +45,17 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
     private String phoneNumber = "";
     String selected_ImageGetPath = "";
 
-    RelativeLayout re_back, re_done, re_call, re_sms, re_action1, re_action2 ;
+    RelativeLayout re_back, re_done, re_call, re_sms, re_action1, re_action2;
 
     private TextView tv_name, tv_numberphone, tv_name_sim;
 
-    private ImageView image_anhdaidien , img_camera ;
+    private ImageView image_anhdaidien, img_camera;
 
 
     // Camera and gallery
     // Thông báo
     File file;
-    private Uri selectedImageUri ;
+    private Uri selectedImageUri;
 
     Bitmap bm = null;
 
@@ -79,7 +79,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
             id = b.getString("Id_danhba");
             name = b.getString("Name_danhba");
             phoneNumber = b.getString("Phone_number");
-           // selected_ImageGetPath = b.getString("Image_Path"); // đường dẫn Uri kiểu String
+            // selected_ImageGetPath = b.getString("Image_Path"); // đường dẫn Uri kiểu String
         }
 
         //nut tro ve tren menu
@@ -87,10 +87,11 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         re_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
-                    Intent intent = new Intent( context.getApplicationContext(), MainActivity.class );
-                    startActivity( intent );
-                }catch (Exception po){}
+                try {
+                    Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                } catch (Exception po) {
+                }
             }
         });
 
@@ -99,48 +100,49 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         re_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  try{
+                try {
+                    //lay hinh anh hien crop
+                    Bitmap scaledBitmap = null;
+                    Bitmap circular_mIcon11 = null;
+                    bm = ((BitmapDrawable) image_anhdaidien.getDrawable()).getBitmap();
+                    scaledBitmap = Bitmap.createScaledBitmap(bm, 120, 120, false);
+                    circular_mIcon11 = Url_config.getRoundedCornerBitmap(scaledBitmap, 60);
 
-                      Bitmap scaledBitmap = null;
-                      Bitmap circular_mIcon11 = null;
-                      bm = ((BitmapDrawable)image_anhdaidien.getDrawable()).getBitmap();
-                      scaledBitmap  =  Bitmap.createScaledBitmap(bm, 120 , 120 , false);
-                      circular_mIcon11 = Url_config.getRoundedCornerBitmap(scaledBitmap, 60);
+                    // Code tạo ra Shortcut icon màn hình home, nếu thiết bị có hỗ trợ
+                    if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-                      // Code tạo ra Shortcut icon màn hình home
-                      if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
+                        //Cach tạo tùy theo SDK version
+                        if (Build.VERSION.SDK_INT >= 24) { //android 7.0 trở lên
+                            ShortcutInfoCompat shortcutInfo = new ShortcutInfoCompat.Builder(context, id)
+                                    .setIntent(new Intent(context, MainActivity.class).setAction(Intent.ACTION_MAIN)) // !!! intent's action must be set on oreo
+                                    .setShortLabel(name)
+                                    .setIcon(IconCompat.createWithBitmap(circular_mIcon11))
+                                    .setIntent(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)))
+                                    .build();
+                            ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null);
+                        } else {
 
-                          if (Build.VERSION.SDK_INT >= 24){
-                              ShortcutInfoCompat shortcutInfo = new ShortcutInfoCompat.Builder(context , id)
-                                      .setIntent(new Intent(context, MainActivity.class).setAction(Intent.ACTION_MAIN)) // !!! intent's action must be set on oreo
-                                      .setShortLabel(name)
-                                      .setIcon(IconCompat.createWithBitmap(circular_mIcon11))
-                                      .setIntent(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)))
-                                      .build();
-                              ShortcutManagerCompat.requestPinShortcut(context, shortcutInfo, null);
-                          } else{
+                            Intent shortcutIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
+                            shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            //shortcutIntent.setAction(Intent.ACTION_MAIN);
 
-                              Intent shortcutIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null));
-                              shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                              //shortcutIntent.setAction(Intent.ACTION_MAIN);
+                            Intent addIntent = new Intent();
+                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, circular_mIcon11);
 
-                              Intent addIntent = new Intent();
-                              addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                              addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-                              addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, circular_mIcon11);
+                            addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                            getApplicationContext().sendBroadcast(addIntent);
+                            Toast.makeText(getApplicationContext(), R.string.shortcut_contact, Toast.LENGTH_LONG).show();
+                        }
 
-                              addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                              getApplicationContext().sendBroadcast(addIntent);
-                              Toast.makeText(getApplicationContext(), R.string.shortcut_contact, Toast.LENGTH_LONG).show();
-                          }
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.shortcut_not_supported, Toast.LENGTH_LONG).show();
+                    }
 
-                      }else {
-                          Toast.makeText(getApplicationContext(), R.string.shortcut_not_supported , Toast.LENGTH_LONG).show();
-                      }
+                } catch (Exception po) {
 
-                  }catch (Exception po){
-
-                  }
+                }
             }
         });
 
@@ -152,7 +154,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
                 Uri smsUri = Uri.parse("tel:" + phoneNumber);
                 Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
                 intent.putExtra("address", phoneNumber);
-                intent.putExtra("sms_body",getString(R.string.send_sms));
+                intent.putExtra("sms_body", getString(R.string.send_sms));
                 intent.setType("vnd.android-dir/mms-sms");
                 startActivity(intent);
             }
@@ -164,20 +166,20 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     PackageManager packageManager = getApplicationContext().getPackageManager();
                     Intent i = new Intent(Intent.ACTION_VIEW);
-                    String url = "https://api.whatsapp.com/send?phone="+ phoneNumber +"&text=" + URLEncoder.encode("", "UTF-8");
+                    String url = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + URLEncoder.encode("", "UTF-8");
                     i.setPackage("com.whatsapp");
                     i.setData(Uri.parse(url));
                     if (i.resolveActivity(packageManager) != null) {
                         startActivity(i);
-                    }else {
+                    } else {
                         final Dialog dialog = new Dialog(Main_ThongTin_ChiTiet_DanhBa.this, R.style.FullHeightDialog); //this is a reference to the style above
                         dialog.setContentView(R.layout.custom_layout); //I saved the xml file above as yesnomessage.xml
                         dialog.setCancelable(true);
 
-                        TextView message =(TextView) dialog.findViewById(R.id.tvmessagedialogtext);
+                        TextView message = (TextView) dialog.findViewById(R.id.tvmessagedialogtext);
                         message.setText(getString(R.string.no_whatsapp));
 
                         Button no = (Button) dialog.findViewById(R.id.bmessageDialogNo);
@@ -191,7 +193,8 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
 
                         dialog.show();
                     }
-                } catch(Exception e) {}
+                } catch (Exception e) {
+                }
 
             }
         });
@@ -209,12 +212,12 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
                     i.setData(uri);
                     if (i.resolveActivity(packageManager) != null) {
                         startActivity(i);
-                    }else {
+                    } else {
                         final Dialog dialog = new Dialog(Main_ThongTin_ChiTiet_DanhBa.this, R.style.FullHeightDialog); //this is a reference to the style above
                         dialog.setContentView(R.layout.custom_layout); //I saved the xml file above as yesnomessage.xml
                         dialog.setCancelable(true);
 
-                        TextView message =(TextView) dialog.findViewById(R.id.tvmessagedialogtext);
+                        TextView message = (TextView) dialog.findViewById(R.id.tvmessagedialogtext);
                         message.setText(getString(R.string.no_telegram));
                         Button no = (Button) dialog.findViewById(R.id.bmessageDialogNo);
                         no.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +230,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
 
                         dialog.show();
                     }
-                }catch (Exception oi){
+                } catch (Exception oi) {
 
                 }
             }
@@ -244,12 +247,11 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         });
 
 
-        // Lấy ảnh từ trong thư viện ra
+        // hiển thị yêu cầu chọn ảnh
         img_camera = (ImageView) findViewById(R.id.img_camera);
         img_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent GalIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(Intent.createChooser(GalIntent, "Select Image From Gallery"), 2);
@@ -258,6 +260,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         });
 
 
+        //hiển thị thông tin của liên hệ
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_numberphone = (TextView) findViewById(R.id.tv_numberphone);
         tv_name_sim = (TextView) findViewById(R.id.tv_name_sim);
@@ -265,11 +268,12 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         tv_name.setText(name);
         tv_numberphone.setText(phoneNumber);
 
-        if (id.length() == 5){
+        //kiểm tra và đặt dạng liên hệ
+        if (id.length() == 5) {
             tv_name_sim.setText(R.string.sim);
-        }else if (id.length() == 4) {
+        } else if (id.length() == 4) {
             tv_name_sim.setText(R.string.mobile);
-        }else {
+        } else {
             tv_name_sim.setText(R.string.other);
         }
 
@@ -278,8 +282,8 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         // lấy đường dẫn lưu ảnh tạm thời ở SharedPreferences ra chuỗi String rùi convert thành Uri
         // Xong thì cho đọc File và gắn vào bitmap , giai đoạn cuối thì gắn vào image.setImageBitmap
         bm = null;
-        Cursor cursorInfo = getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+//        Cursor cursorInfo = getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+//                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
         SharedPreferences prefs = getSharedPreferences("save_image", Context.MODE_PRIVATE);
         selected_ImageGetPath = prefs.getString(id, "");
@@ -288,7 +292,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         try {
             File imgFile = new File(selected_ImageGetPath);
 
-            if(imgFile.exists()){
+            if (imgFile.exists()) {
                 bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 image_anhdaidien.setImageBitmap(bm);
             }
@@ -298,7 +302,7 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         }
 
 
-    }
+    }// end onCreate
 
     // Cấp quyền Permession
     @Override
@@ -315,13 +319,13 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         }
     }
 
-    public void initPermission(){
+    //xin quyền cho lưu hình ảnh
+    public void initPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                 //Permisson don't granted
-                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Toast.makeText(getApplicationContext(), R.string.permission_isn_granted, Toast.LENGTH_SHORT).show();
                 }
                 // Permisson don't granted and dont show dialog again.
@@ -336,31 +340,25 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
     }
 
 
-
+    //nhận kết quả mà activity crop editor của máy trả về
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
-             if (requestCode == 2) {
+            if (requestCode == 2) {
                 if (data != null) {
-
                     // Crop ảnh
                     selectedImageUri = data.getData();
                     ImageCropFunction();
                 }
             } else if (requestCode == 1) {
-
                 if (data != null) {
-
-                // Code này dùng cho Crop ảnh xong hiện ra sử dụng cho cả 2 requestCode dùng cho 2 đối tượng .
+                    // Code này dùng cho Crop ảnh xong hiện ra sử dụng cho cả 2 requestCode dùng cho 2 đối tượng .
                     Bundle bundle = data.getExtras();
-
                     bm = bundle.getParcelable("data");
                     image_anhdaidien.setImageBitmap(bm);
-
                     bm = ((BitmapDrawable) image_anhdaidien.getDrawable()).getBitmap();
                     SaveIamge(bm);
-
                 }
             }
         } catch (Exception e) {
@@ -391,18 +389,18 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
         }
     }
 
-    //luu anh vao may
+    //lưu ảnh vào máy
     private void SaveIamge(Bitmap finalBitmap) {
 
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/" + getApplicationContext().getPackageName() + "/Images");
+        File myDir = new File(root + "/" + getApplicationContext().getPackageName() + "/Images"); //thư mục chứa ảnh crop
         myDir.mkdirs();
         Random generator = new Random();
         int n = 10000;
         n = generator.nextInt(n);
-        String fname = "Image-"+ name + n +".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
+        String fname = "Image-" + name + n + ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -413,8 +411,9 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Url_duongdananh = root + "/" + getApplicationContext().getPackageName() + "/Images" + "/" + fname ;
+        Url_duongdananh = root + "/" + getApplicationContext().getPackageName() + "/Images" + "/" + fname;
 
+        //tao sharedPrefenrences để truyền dữ liệu với Main activity
         SharedPreferences userDetails = getSharedPreferences("save_image", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.putString(id, Url_duongdananh);
@@ -423,17 +422,18 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
 
     }
 
-    public String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
-    }
+    //Dự định dùng cho uber
+//    public String getPathFromURI(Uri contentUri) {
+//        String res = null;
+//        String[] proj = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+//        if (cursor.moveToFirst()) {
+//            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//            res = cursor.getString(column_index);
+//        }
+//        cursor.close();
+//        return res;
+//    }
 
     @Override
     public void onPause() {
@@ -453,8 +453,8 @@ public class Main_ThongTin_ChiTiet_DanhBa extends AppCompatActivity {
     //nút quay lại trên điện thoại.
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent( context.getApplicationContext(), MainActivity.class );
-        startActivity( intent );
+        Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         super.onBackPressed();
     }
 }
